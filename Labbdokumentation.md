@@ -1,7 +1,7 @@
 
 # Linux and Windows Virtual Lab
 
-## 1. Introduction
+## 1. Introduction.
 
 Name:
 Date:

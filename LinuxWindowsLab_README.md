@@ -113,7 +113,7 @@ IP address: 192.168.10.10
 
 Subnet mask: 255.255.255.0 (/24)
 
-![Screenshot 2026-09-17 110925](Picture/Screenshot 2026-09-17 110925.png)
+![Screenshot 2026-09-17 110925](Picture/Screenshot%202026-09-17%20110925.png)
 
 ![Screenshot 2026-09-17 111302](Picture/Screenshot 2026-09-17 111302.png)
 

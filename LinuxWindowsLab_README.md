@@ -100,6 +100,8 @@ The main network interface used by the Linux virtual machine was:
 
 enp0s3, The interface was shown as :UP, which indicates that the virtual network adapter was active.
 
+![Screenshot 2026-09-17 110925](Picture/Screenshot%202026-09-17%20110925.png)
+
 ## Verification
 
 The IPv4 configuration can be verified using:
@@ -113,9 +115,7 @@ IP address: 192.168.10.10
 
 Subnet mask: 255.255.255.0 (/24)
 
-![Screenshot 2026-09-17 110925](Picture/Screenshot%202026-09-17%20110925.png)
-
-![Screenshot 2026-09-17 111302](Picture/Screenshot 2026-09-17 111302.png)
+![Screenshot 2026-09-17 111302](Picture/Screenshot%202026-09-17%20111302.png)
 
 ## Windows Client
 
@@ -129,13 +129,13 @@ Subnet Mask: 255.255.255.0
 
 Default Gateway: None
 
-![Screenshot 2026-09-17 113549](Picture/Screenshot 2026-09-17 113549.png)
+![Screenshot 2026-09-17 113549](Picture/Screenshot%202026-09-17%20113549.png)
 
 ## Problem
 
 when I tried to ping from ubuntu it a says ping 192.168.10.20 56(84) bytes of data and its running nothing else which meant Ubuntu is sending the ping but not receiving a reply. I then did it manually first open windows firewall , open advanced settings, create an inbound rule. 
 
-![Screenshot 2026-09-17 122930](Picture/Screenshot 2026-09-17 122930.png)
+![Screenshot 2026-09-17 122930](Picture/Screenshot%202026-09-17%20122930.png)
 
 ## Create a specific rule for ping
 
@@ -163,9 +163,9 @@ Name the rule Allow Ubuntu Ping → Finish.
 
 This allows Windows to respond to ping requests from Ubuntu.
 
-![Screenshot 2026-09-17 151356](Picture/Screenshot 2026-09-17 151356.png)
+![Screenshot 2026-09-17 151356](Picture/Screenshot%202026-09-17%20151356.png)
 
-![Screenshot 2026-09-17 151606](Picture/Screenshot 2026-09-17 151606.png)
+![Screenshot 2026-09-17 151606](Picture/Screenshot%202026-09-17%20151606.png)
 
 ## Communication Between the Virtual Machines
 
@@ -179,7 +179,7 @@ ping 192.168.10.20
 
 The Ubuntu server received replies from the Windows client.
 
-![Screenshot 2026-09-17 152212](Picture/Screenshot 2026-09-17 152212.png)
+![Screenshot 2026-09-17 152212](Picture/Screenshot%202026-09-17%20152212.png)
 
 This confirms that the Ubuntu server can communicate with the Windows client over the internal network.
 
@@ -193,7 +193,7 @@ The Windows client received replies from the Ubuntu server.
 
 This confirms that communication works in both directions.
 
-![Screenshot 2026-09-17 121649](Picture/Screenshot 2026-09-17 121649.png)
+![Screenshot 2026-09-17 121649](Picture/Screenshot%202026-09-17%20121649.png)
 
 ## Result
 
@@ -245,7 +245,12 @@ Check that it exists:
 
 ```bash
 getent group konsulter
+
 ```
+
+![Screenshot 2026-09-20 113017](Picture/Screenshot%202026-09-20%20113017.png)
+
+
 \## Assign the folder and file to the group
 
 Change the group ownership of the directory:
@@ -270,33 +275,6 @@ For the file:
 ```bash
 sudo chmod 640 /var/systementor/konsultdata/anteckningar.txt
 ```
-What does 750 mean?
-
-7 = owner: read + write + execute
-
-5 = group: read + execute
-
-0 = others: no permissions
-
-So:
-
-```text
-750
-│││
-││└── Others: no access
-│└─── Group: read + execute
-└──── Owner: read + write + execute
-```
-
-For the file, 640 means:
-
-6 = owner: read + write
-
-4 = group: read
-
-0 = others: no access
-
-This follows the Least Privilege principle because users who are not the owner or members of konsulter have no access.
 
 4. Verified permissions
 
@@ -306,28 +284,10 @@ ls -ld /var/systementor/konsultdata
 ```bash
 ls -la /var/systementor/konsultdata
 ```
-### 3.2 Windows - PowerShell
 
-Powershell was open using run as administrator.
+## Problems
 
-```powershell
-New-Item -Path "C:\Systementor\KonsultData" -ItemType Directory -Force
-```
-then inspect the acl 
-
-```powershell
-New-Item -Path "C:\Systementor\KonsultData" -ItemType Directory -Force
-```
-to get a more useful view of the permissions need to write this command:
-
-```powershell
-(Get-Acl "C:\Systementor\KonsultData").Access
-```
-after that ping each vm and Successful replies demonstrate that Windows can communicate with Linux and Linux can communicate with windows.
-
-## problems
-
-when I wrote sudo chgrp konsulter /var/systementor/konsultdata/anteckningar.txt after this it says chgrp: cannot dereference . after fixing I had another error "ls: cannot open directory permision denied". Which means the directory permissions are now preventing my current user from entering/listing the directory. This is likely because I set the directory to 750, and user is neither the owner nor a member of konsulter. so tried to inspect it 
+When I wrote sudo chgrp konsulter /var/systementor/konsultdata/anteckningar.txt after this it says chgrp: cannot dereference . after fixing I had another error "ls: cannot open directory permision denied". Which means the directory permissions are now preventing my current user from entering/listing the directory. This is likely because I set the directory to 750, and user is neither the owner nor a member of konsulter. so tried to inspect it 
 
 ```bash
 sudo ls -la /var/systementor/konsultdata
@@ -390,28 +350,120 @@ Run:
 ls -la /var/systementor/konsultdata
 ```
 ```
-3. Network
+![Screenshot 2026-09-20 121825](Picture/Screenshot%202026-09-20%20121825.png)
+
+### 3.2 Windows - PowerShell
+
+Powershell was open using run as administrator.
 
 ```powershell
-ipconfig /all
+New-Item -Path "C:\Systementor\KonsultData" -ItemType Directory -Force
 ```
-Test-Connection \<LINUX-IP>
+then inspect the acl 
 
-![Screenshot 2026-09-20 110959](Picture/Screenshot 2026-09-20 110959.png)
+```powershell
+New-Item -Path "C:\Systementor\KonsultData" -ItemType Directory -Force
+```
+to get a more useful view of the permissions need to write this command:
 
-![Screenshot 2026-09-20 113017](Picture/Screenshot 2026-09-20 113017.png)
+```powershell
+(Get-Acl "C:\Systementor\KonsultData").Access
+```
+![Screenshot 2026-09-20 124454](Picture/Screenshot%202026-09-20%20124454.png)
+![Screenshot 2026-09-20 125140](Picture/Screenshot%202026-09-20%20125140.png)
 
-![Screenshot 2026-09-20 121825](Picture/Screenshot 2026-09-20 121825.png)
+After that ping each vm and Successful replies demonstrate that Windows can communicate with Linux and Linux can communicate with windows.
 
-![Screenshot 2026-09-20 123618](Picture/Screenshot 2026-09-20 123618.png)
+![Screenshot 2026-09-20 123618](Picture/Screenshot%202026-09-20%20123618.png)
+![Screenshot 2026-09-20 125355](Picture/Screenshot%202026-09-20%20125355.png)
 
-![Screenshot 2026-09-20 124454](Picture/Screenshot 2026-09-20 124454.png)
-
-![Screenshot 2026-09-20 125140](Picture/Screenshot 2026-09-20 125140.png)
-
-![Screenshot 2026-09-20 125355](Picture/Screenshot 2026-09-20 125355.png)
 
 ## 4. Git and Version Control
 
+Here is my github link https://github.com/lub9/LinuxWindowsLab
+
+Here is my Commit history:
+Commit c283342 : Create initial lab documentation
+Commit ba82bc8 : add picture
+Commit cfdfe63 : completed with Del1
+Commit 16fe5e9 : completed with Del3
+
+
 ## 5. AI Log and Critical Evaluation
+
+## Use of Generative AI
+
+I used a generative AI tool to help me understand Linux permissions, sudo, root ownership, and chmod 750.
+
+I chose this topic because I received Permission denied when trying to access:
+
+/var/systementor/konsultdata
+
+## Prompt Given to the AI
+
+I am working in a Linux terminal and I created the directory /var/systementor/konsultdata using sudo. The directory and the file inside it are owned by root. When I run ls -la /var/systementor/konsultdata as a normal user, I get "Permission denied", but when I run sudo ls -la /var/systementor/konsultdata, it works. Explain why this happens. Also explain how sudo, root ownership, directory permissions, and chmod 750 are related. Give me a safe way to verify your explanation without making unnecessary changes to the system.
+
+## AI Explanation
+
+The AI explained that the problem is caused by Linux permissions, ownership, and sudo.
+
+A directory with permission 750 has:
+
+rwxr-x---
+
+
+This means:
+
+Owner: rwx – read, write, and access
+
+Group: r-x – read and access
+
+Others: --- – no permissions
+
+Since the directory was created with sudo, root normally became the owner. A normal user without the required group permissions cannot access the directory.
+
+Using sudo runs the command with elevated privileges, normally as root:
+
+sudo ls -la /var/systementor/konsultdata
+
+
+This is why the command works with sudo but not as a normal user.
+
+## Practical Verification
+
+I tested the explanation in my Linux virtual machine:
+
+sudo mkdir -p /var/systementor/konsultdata
+sudo touch /var/systementor/konsultdata/anteckningar.txt
+
+
+As a normal user:
+
+ls -la /var/systementor/konsultdata
+
+
+returned:
+
+Permission denied
+
+
+With sudo, the command worked.
+
+I also used:
+
+chmod 750 /var/systementor/konsultdata
+ls -ld /var/systementor/konsultdata
+
+
+The permissions matched the AI's explanation.
+
+## Critical Evaluation
+
+I did not find any obvious errors or hallucinations in the AI's response. The explanation of sudo, root ownership, and chmod 750 matched the actual behavior of my Linux system.
+
+An important point was that root ownership alone does not automatically cause Permission denied. Access also depends on permissions, group membership, and the permissions of the directories in the path.
+
+## Conclusion
+
+The AI was useful for understanding and troubleshooting the Linux permission problem. However, I did not rely on the AI alone. I tested the commands myself in a Linux virtual machine and confirmed that the explanation matched the actual system behavior.
 

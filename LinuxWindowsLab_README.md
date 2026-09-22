@@ -24,13 +24,12 @@ Both virtual machines were connected to the same internal network in VirtualBox.
 
 ## 2. Lab Environment and Network
 
-| Hostname | Operating System | IP Address | Subnet Mask | Default Gateway |
+| Hostname       | Operating System | IP Address   | Subnet Mask   | Default Gateway |
+| -------------- | ---------------- | ------------ | ------------- | --------------- |
+| admin-virtualbox   | ubuntu 26.04 LTS    | 192.168.10.10 | 255.255.255.0 | —               |
+| windows-client | Windows 11       | 192.168.10.20 | 255.255.255.0 | —               |
 
-| --- | --- | --- | --- | --- |
 
-| admin-virtualbox   | ubuntu 26.04 LTS    | 192.168.10.10 | 255.255.255.0 | —               |
-
-| windows-client | Windows 11       | 192.168.10.20 | 255.255.255.0 | —               |
 
 ## Network Configuration
 
@@ -307,7 +306,7 @@ ls -ld /var/systementor/konsultdata
 ```bash
 ls -la /var/systementor/konsultdata
 ```
-\### 3.1 Linux - Bash
+### 3.2 Windows - PowerShell
 
 Powershell was open using run as administrator.
 
@@ -390,20 +389,6 @@ Run:
 ```bash
 ls -la /var/systementor/konsultdata
 ```
-### 3.2 Windows - PowerShell
-
-Created directory
-
-```powershell
-New-Item -Path "C:\Systementor\KonsultData" -ItemType Directory -Force
-```
-2. Inspected ACL
-
-```powershell
-Get-Acl "C:\Systementor\KonsultData"
-```
-```powershell
-(Get-Acl "C:\Systementor\KonsultData").Access
 ```
 3. Network
 

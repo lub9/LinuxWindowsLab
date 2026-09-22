@@ -463,6 +463,12 @@ I did not find any obvious errors or hallucinations in the AI's response. The ex
 
 An important point was that root ownership alone does not automatically cause Permission denied. Access also depends on permissions, group membership, and the permissions of the directories in the path.
 
+## Security considerations
+
+There is a security consideration when using sudo. It provides elevated privileges, which means that commands executed with sudo can make changes that a normal user cannot make. Therefore, users should understand what a command does before running it with sudo.
+
+The AI also correctly warned against unnecessarily modifying /etc/sudoers. A mistake in the sudo configuration could cause problems with administrative access.
+
 ## Conclusion
 
 The AI was useful for understanding and troubleshooting the Linux permission problem. However, I did not rely on the AI alone. I tested the commands myself in a Linux virtual machine and confirmed that the explanation matched the actual system behavior.
